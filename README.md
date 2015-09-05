@@ -1,5 +1,5 @@
-P4 Website Performance Optimization portfolio project README
-Aaron Wright 9-5-2015
+P4 Website Performance Optimization portfolio project README 9-5-2015
+Aaron Wright
 aaronfwright@gmail.com
 
 To run the project:
@@ -11,6 +11,27 @@ To run the project:
 -Start a server using Python by running "python -m SimpleHTTPServer 8080"
 
 -In your web browser, navigate to http://localhost:8080/ to view the project pages
+
+
+=========================================================================
+Changelog
+=========================================================================
+17:55PM Eastern 9-5-2015
+-Made the following updates to the changePizzaSizes function in main.js
+	-replaced document.querySelector with document.getElementsByClassName for speed
+	-created a variable to store the length (number) randomPizzaContainer so the for loop can run
+	using a constant
+	-added container variable so that DOM is not touched as the for loop is ran
+
+-Movded the variable pizzasDiv outside of for loop to prevent multple touches to DOM
+
+-Revised updatePositions function in main.js
+	-used document.getElementsByClassName() insteadof document.querySelectorAll for speed
+	-moved Math.sin back inside of the for loop so that the pizzas move individually.
+
+-Moved declaration for variable elem outside of the for loop in the block for document.addEventListener('DOMContentLoaded', function() section
+-Created local variable movingPizzas so document.getElementById is not called while running
+for loop in document.addEventListener('DOMContentLoaded', function() section
 
 =========================================================================
 Optimizations for the inxex.html page to receive a 90+ page speed score:
@@ -37,3 +58,4 @@ calculations:
 
 I do not have seperate folders for my production code or deployment code- the major difference is that I inline the CSS so for
 development the CSS file is updated, minified, then inlined for index.html.
+

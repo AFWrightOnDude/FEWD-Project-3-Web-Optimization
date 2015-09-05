@@ -450,11 +450,16 @@ var resizePizzas = function(size) {
 
   function changePizzaSizes(size) {
     // Aaron edit: Moved the lines the create and calculate the variables dx and newwidth out of the loop.
-    //no reason for them to be calculated many times.
-    var dx = determineDx(document.querySelector(".randomPizzaContainer"), size);
-    var newwidth = (document.querySelector(".randomPizzaContainer").offsetWidth + dx) + 'px';
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+    // no reason for them to be calculated many times.
+    // replaced document.querySelector with document.getElementsByClassName
+    // Added variable numOfPizzaContainers to hold number of containers as constant
+    // Added container variable so for loop does not touch the DOM each time
+    var dx = determineDx(document.getElementsByClassName("randomPizzaContainer"), size);
+    var newwidth = (document.getElementsByClassName("randomPizzaContainer").offsetWidth + dx) + 'px';
+    var numOfPizzaContainers = document.getElementsByClassName("randomPizzaContainer").length;
+    var container =  document.getElementsByClassName('randomPizzaContainer');
+    for (var i = 0; i < numOfPizzaContainers; i++) {
+      container[i].style.width = newwidth;
     }
   }
 
@@ -470,8 +475,9 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
+//moved variable pizzasDiv outside of the for loop so it makes only one DOM call
+var pizzasDiv = document.getElementById("randomPizzas");
 for (var i = 2; i < 100; i++) {
-  var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -499,15 +505,18 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
 // Moves the sliding background pizzas based on scroll position
-// Aaron edit: added new variable scrollAmount so that the calculation is not repaeted in the for loop.
-
+// Aaron edit: added new variable scrollAmount so that the calculation is not repeated in the for loop.
+// changed document.querySelectorAll to document.getElementsByClassName() for speed
+// updated code so that the Math.sin operation is within the loop giving returning
+// the individual movement to each moving pizza
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
-  var items = document.querySelectorAll('.mover');
-  var scrollAmount = Math.sin(document.body.scrollTop / 1250);
+  var items = document.getElementsByClassName('mover');
+  var scrollAmount = (document.body.scrollTop / 1250);
   for (var i = 0; i < items.length; i++) {
-    var phase = scrollAmount + (i % 5);
+  //  var phase = scrollAmount + (i % 5);
+    phase = Math.sin(scrollAmount + i % 5);
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
@@ -527,18 +536,22 @@ window.addEventListener('scroll', updatePositions);
 // Generates the sliding pizzas when the page loads.
 //**** Aaron Edit: We have 200 pizzas. Let's decrease that to 32 to decrease the load. *****
 
+// Moved initial creation of variable elem outside of the for loop so it is only created once
+// created local variable movingPizzas to remove DOM Call from for loop
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
+  var elem;
+  var movingPizzas = document.getElementById('movingPizzas1');
   for (var i = 0; i < 32; i++) {
-    var elem = document.createElement('img');
+    elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.querySelector("#movingPizzas1").appendChild(elem);
+    movingPizzas.appendChild(elem);
   }
   updatePositions();
 });
