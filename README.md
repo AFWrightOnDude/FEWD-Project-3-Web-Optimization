@@ -4,7 +4,7 @@ aaronfwright@gmail.com
 
 To run the project:
 
--Clone the Git Repository from XXXXXXXXX to your computer.
+-Clone the Git Repository from https://github.com/AFWrightOnDude/FEWD-Project-4-Web-Optimization.git to your computer.
 
 -Use terminal or the command line to navigate to the main project folder
 
