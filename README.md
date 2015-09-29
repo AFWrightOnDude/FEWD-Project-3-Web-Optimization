@@ -16,6 +16,11 @@ To run the project:
 =========================================================================
 Changelog
 =========================================================================
+
+9-28-2015
+-Updated/Corrected variable structures in main.js as per review/suggestions from Udacity reviewer.
+
+
 17:55PM Eastern 9-5-2015
 -Made the following updates to the changePizzaSizes function in main.js
 	-replaced document.querySelector with document.getElementsByClassName for speed
